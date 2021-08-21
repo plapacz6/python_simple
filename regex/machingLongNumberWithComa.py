@@ -14,16 +14,28 @@ testSet = [
   ['4,991,090,234', 1],
   ['452434', 0],
   ['56,8824', 0],
-  ['98,44,799', 0]
+  ['98,44,799', 0],
+  ['1234567', 0]
 ]
 
 def isNumberWithComa(n):
   #TODO: incorrect regexpression  
-  reNumWithComa = r'(\d{0,3},)*(\d{3},)*(\d{0,3}?)'
-  objReNWC = re.compile(reNumWithComa)
+  
+  reNumWithComa = r"""
+    ( (([^0-9,])*|^)
+    (
+    (\d{1,3})(,\d{3})+
+    |
+    (\d{1,3})
+    )
+    (([^0-9,])*|$) )        
+  """
+  objReNWC = re.compile(reNumWithComa, re.VERBOSE)
   mo = objReNWC.search(n)
-  if len(mo.group()) > 0:
-    return True
+  if mo != None:
+    if len(mo.group()) > 0:
+      print("found: ",mo.group())
+      return True
   return False
 
 numberOfTest = 0
@@ -31,9 +43,10 @@ numberOfGoodTest = 0
 numberOfWrongTest = 0
 for t,b in testSet:
   numberOfTest += 1
-  if b == isNumberWithComa(t):    
-    numberOfGoodTest +=1    
+  if bool(b) == isNumberWithComa(t):    
+    numberOfGoodTest +=1   
+    print(t, ": ok") 
   else:
-    print('Test Error:', t,  b)    
+    print('Test Error:', t, "expected:", bool(b), ", get:", bool(isNumberWithComa(t)))    
 numberOfWrongTest = numberOfTest - numberOfGoodTest
-print('Good Test:', numberOfGoodTest, '\nWrong Test:',  numberOfWrongTest)
+print('Success Test:', numberOfGoodTest, '\nFail Test:',  numberOfWrongTest)

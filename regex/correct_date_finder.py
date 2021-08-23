@@ -43,29 +43,79 @@ testSet = [
 ['_1_11-2021', 0, 0]
 ]
 
-#TODO: checking the correctness of the numbers of days, months and leep years
 def checkDate(text):
   correctDateRegex = r"""
-  [0-3][0-9]\/[0-1][0-9]\/[1-2]\d\d\d
+  ([0-3][0-9])\/([0-1][0-9])\/([1-2]\d\d\d)
   """
   CDR_re = re.compile(correctDateRegex, re.VERBOSE)
   mo = CDR_re.search(text)
+  match = False
+  correct = False
   if mo != None:
     if len(mo.group()) > 0 :
       print("found: ", mo.group())
-      return True
-  return False
+      match = True
+      
+      #checking month and number of days
+      month = int(mo.group(2))
+      days = int(mo.group(1))
+      years = int(mo.group(3))
+         
+      leapYear = False              
+      if years%4 == 0:
+        if years%100 == 0:
+          if years%400 == 0:
+            leapYear = True
+          else:
+            leapYear = False
+        else:
+          leapYear = True
+  
+      if month > 0 and month < 13: 
+        if month in [1,3,5,7,8,10,12]: 
+        #1 or month = 3 or month = 5 or month = 7 or month = 8 or month = 10 or month = 12:
+           if days >= 1 and days <= 31:
+             correct = True
+             return (match, correct)
+        if month in [4,6,9,11]: 
+        #== 4 or mouth == 6 or mouth == 9 or mouth == 11:
+          if days >= 1 and days <= 30:
+            correct = True
+            return (match, correct)
+        if month == 2:
+           if leapYear:
+              if days >= 1 and days <= 29:
+                correct = True               
+                return (match, correct)
+           else:
+             if days >= 0 and days <= 28:
+               correct = True               
+               return (match, correct)            
+  return (match, correct)
 
 testCounter = 0
 testSuccess = 0
 testFail = 0 
+print("test: regex match")
 for d, te, td in testSet:
   testCounter += 1
-  if bool(te) == checkDate(d):
+  if bool(te) == checkDate(d)[0]:
     print("test ok: ", d)
     testSuccess += 1
   else:
-    print("test FAIL: ", d, " expected :", bool(te), " get:" , checkDate(d))
+    print("test FAIL: ", d, " expected :", bool(te), " get:" , checkDate(d)[0])
+    testFail += 1
+print("Test Success: ", testSuccess)
+print("Test Fail   : ", testFail)
+
+print("test correctness of date")
+for d, te, td in testSet:
+  testCounter += 1
+  if bool(td) == checkDate(d)[1]:
+    print("test ok: ", d)
+    testSuccess += 1
+  else:
+    print("test FAIL: ", d, " expected :", bool(td), " get:" , checkDate(d)[1])
     testFail += 1
 print("Test Success: ", testSuccess)
 print("Test Fail   : ", testFail)

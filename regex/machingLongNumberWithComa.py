@@ -15,25 +15,26 @@ testSet = [
   ['452434', 0],
   ['56,8824', 0],
   ['98,44,799', 0],
-  ['1234567', 0]
+  ['1234567', 0],
+  [',234', 0]
 ]
 
 def isNumberWithComa(n):
   #TODO: incorrect regexpression  
   
   reNumWithComa = r"""
-    ( (([^0-9,])*|^)
+    (\s|'|^)
     (
-    (\d{1,3})(,\d{3})+
+    (\d|\d\d|\d\d\d)(,\d{3})+
     |
     (\d{1,3})
-    )
-    (([^0-9,])*|$) )        
+    )    
+    ('s|'|$)        
   """
   objReNWC = re.compile(reNumWithComa, re.VERBOSE)
   mo = objReNWC.search(n)
   if mo != None:
-    if len(mo.group()) > 0:
+    if len(mo.group(2)) > 0:
       print("found: ",mo.group())
       return True
   return False

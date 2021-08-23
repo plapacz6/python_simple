@@ -1,6 +1,7 @@
 #
 # date: 2021-08-20, autor: plapacz6@gmail.com
-
+#
+# excercise from https://automatetheboringstuff.com
 import re
 testSet = [
   ['12', 1],
@@ -19,9 +20,8 @@ testSet = [
   [',234', 0]
 ]
 
-def isNumberWithComa(n):
-  #TODO: incorrect regexpression  
-  
+def isNumberWithComa(n):    
+  #TODO: make better regex
   reNumWithComa = r"""
     (\s|'|^)
     (

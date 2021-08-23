@@ -88,7 +88,7 @@ def checkDate(text):
                 correct = True               
                 return (match, correct)
            else:
-             if days >= 0 and days <= 28:
+             if days >= 1 and days <= 28:
                correct = True               
                return (match, correct)            
   return (match, correct)

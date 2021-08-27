@@ -17,22 +17,10 @@ testSet = [
 ['DDWEEGIIYIIIR',0]
 ]
 
-def isStrongPassword(p):
-  #if len(p)<8 :
-  #  return False
-  re_8len = r".{8,}"
-  re_UperLower = r"""
-    (\w*[A-Z]\w*[a-z]\w*)
-    |
-    (\w*[a-z]\w*[A-Z]\w*)
-    """
-  re_1number = r"""
-    \w*\d\w*
-  """
-
+def isStrongPassword(p):  
   conditions = [
     {'desc': '8 char length',
-      'def': 
+     'def': 
 
     r".{8,}"
 

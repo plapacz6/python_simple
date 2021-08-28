@@ -14,6 +14,7 @@ testSet = [
 ["some test without", "some test without", "43BB%", 1],
 ["43BB%some test 43BB% in the middle and left", "some test 43BB% in the middle and left", "43BB%", 1],
 ["some test 43BB% in the middle and right43BB%", "some test 43BB% in the middle and right", "43BB%", 1],
+["some test without", "some test without", "", 1],
 
 ["43BB%some test both end43BB%", "43BB%some test both end43BB%", "43BB%", 0],
 ]

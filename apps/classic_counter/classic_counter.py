@@ -19,10 +19,15 @@ class wheel():
     return str(self.currVal)
 
   def __iter__(self):
-    pass
+    return self
+    
 
   def __next__(self):
-    pass
+    self.currStep += 1    
+    if(self.currStep > self.stepNumber):
+      self.currStep = 0
+    self.currVal = self.stepVals[self.currStep]
+    return str(self.currVal) #for print    
 
 
 #wheelDef - list of step on each position of counter
@@ -39,12 +44,19 @@ class wheelCounter():
     for i in range(self.cnLen):
       #print(wheelsSymb[i])
       self.cn.append( wheel(wheelsSymb[i] if len(wheelsSymb[i]) > 0 else []))
+    self.cIter = []
+    for wh in self.cn:
+      self.cIter.append(iter(wh))
 
   def __str__(self):
     cn_view = []
     for i in range(self.cnLen):
       cn_view.append(self.cn[i].__str__())
     return ':'.join(cn_view)
+
+  def tick(self):
+    next(self.cIter[0])
+    
       
 
 
@@ -57,3 +69,7 @@ if __name__ == "__main__":
      [ (str(x)).zfill(2) for x in  range(0, 10) ]\
      ])
   print(counter)
+  for i in range(10):
+    counter.tick()
+    print(counter)
+
